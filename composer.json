@@ -1,6 +1,7 @@
 {
-    "name": "myhammer/cron-assistant",
+    "name": "schmaun/cron-assistant",
     "type": "project",
+    "license": "GPL-3.0-only"
     "require": {
         "symfony/console": "^4.1",
         "symfony/finder": "^4.1",
@@ -11,8 +12,8 @@
     },
     "authors": [
         {
-            "name": "Jan Christiansen",
-            "email": "jan.christiansen@myhammer.net"
+            "name": "schmaun",
+            "email": "cron-assistant@schmaun.de"
         }
     ],
     "autoload": {
