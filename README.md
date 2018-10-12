@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/schmaun/cron-assistant.svg?branch=master)](https://travis-ci.org/schmaun/cron-assistant)
+
 # cron-assistant
 A small programm to help you identifiy if a cron is configured to be run on a given date/time.
 
