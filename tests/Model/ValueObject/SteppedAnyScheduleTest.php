@@ -47,7 +47,7 @@ class SteppedAnyScheduleTest extends TestCase
      */
     public function testIsIn_valueIsIn(SteppedAnySchedule $schedule, int $testValue): void
     {
-        $this->assertTrue($schedule->isIn($testValue), print_r($schedule) . ': ' . $testValue);
+        $this->assertTrue($schedule->isIn($testValue), print_r($schedule, true) . ': ' . $testValue);
     }
 
     /**
@@ -84,7 +84,7 @@ class SteppedAnyScheduleTest extends TestCase
      */
     public function testIsIn_valueIsNotIn(SteppedAnySchedule $schedule, int $testValue): void
     {
-        $this->assertFalse($schedule->isIn($testValue), print_r($schedule) . ': ' . $testValue);
+        $this->assertFalse($schedule->isIn($testValue), print_r($schedule, true) . ': ' . $testValue);
     }
 
     /**
