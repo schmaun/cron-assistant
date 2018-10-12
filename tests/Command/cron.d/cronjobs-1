@@ -1,0 +1,3 @@
+*/2 * * * * www-data /usr/bin/test -d
+* * * * * root /usr/bin/mail -s "spam"
+* 4 * FEB-DEC SUN-SAT root /usr/bin/mail -s "spam"

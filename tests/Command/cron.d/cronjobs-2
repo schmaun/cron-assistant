@@ -1,0 +1,3 @@
+* * * * * www-data /usr/bin/test -d
+* * 5 * * root /usr/bin/mail -s "spam"
+17-29/1 2,4,6 * * * root /usr/bin/mail -s "spam"
