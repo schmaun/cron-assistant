@@ -1,7 +1,7 @@
 {
     "name": "schmaun/cron-assistant",
     "type": "project",
-    "license": "GPL-3.0-only"
+    "license": "GPL-3.0-only",
     "require": {
         "symfony/console": "^4.1",
         "symfony/finder": "^4.1",
