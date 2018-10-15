@@ -27,7 +27,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            '--path' => $path,
+            'path' => $path,
             'dateTime' => $dateTime,
         ));
 
@@ -48,7 +48,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            '--path' => $path,
+            'path' => $path,
             'dateTime' => '2019-09-28',
         ));
 
@@ -68,7 +68,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            '--path' => $path,
+            'path' => $path,
             'dateTime' => '2019-09-28',
         ));
 
@@ -89,7 +89,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            '--path' => $path,
+            'path' => $path,
             'dateTime' => '11111',
         ));
 
@@ -111,7 +111,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            '--path' => 'gibs-net',
+            'path' => 'gibs-net',
             'dateTime' => '2019-01-01',
         ));
     }

@@ -9,7 +9,6 @@ use MyHammer\CronAssistant\Model\CrontabLine;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -24,9 +23,9 @@ class CronJobsRunningAtCommand extends Command
     {
         $this->setName('cronjobs:running-at')
             ->setDescription('Tells you which crons would run at the given time.')
-            ->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to where the crontab files live.')
+            ->addArgument('path', InputArgument::REQUIRED, 'Path to where the crontab files live.')
             ->addArgument('dateTime', InputArgument::REQUIRED,
-                'The date and/or time in question. You can aks for a date, a date and hour or a date and hour+minutes. Format: YYYY-MM-DD [HH][:MM]');
+                'The date and/or time in question. You can ask for a date, a date and hour or a date and hour+minutes. Format: YYYY-MM-DD [HH][:MM]');
     }
 
     /**
@@ -47,7 +46,7 @@ class CronJobsRunningAtCommand extends Command
         }
 
         $finder = new Finder();
-        $finder->files()->in($input->getOption('path'))->sortByName()->depth(0);
+        $finder->files()->in($input->getArgument('path'))->sortByName()->depth(0);
 
         foreach ($finder as $file) {
             try {
