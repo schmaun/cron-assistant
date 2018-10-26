@@ -23,7 +23,7 @@ class CrontabParser
                 ->setLineNumber($key)
                 ->setOriginalLine($line);
 
-            if ($line && !self::isCommented($line)) {
+            if ($line && !self::isNotRelevant($line)) {
                 $cron = self::parseCron($line);
                 $crontabLine->setCron($cron);
             }
@@ -86,8 +86,26 @@ class CrontabParser
      * @param string $line
      * @return bool
      */
+    private static function isNotRelevant(string $line): bool
+    {
+        return self::isCommented($line) || self::isEnvironmentSetting($line);
+    }
+
+    /**
+     * @param string $line
+     * @return bool
+     */
     private static function isCommented(string $line): bool
     {
         return strpos($line, '#') === 0;
+    }
+
+    /**
+     * @param string $line
+     * @return bool
+     */
+    private static function isEnvironmentSetting(string $line): bool
+    {
+        return (preg_match("#^([0-9\w_]{1,})( )?=( )?#", $line) > 0);
     }
 }

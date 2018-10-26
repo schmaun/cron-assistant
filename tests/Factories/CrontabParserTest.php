@@ -18,6 +18,11 @@ class CrontabParserTest extends TestCase
 */30  * *   * * www-data /usr/bin/test $(/usr/bin/du -sm /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d) | /usr/bin/awk '{ print $1 }') -lt '512' || /bin/rm -rf /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d)/*
 */5  * * * * www-data   /usr/bin/test $(/usr/bin/du -sm /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d) | /usr/bin/awk '{ print $1 }') -lt '512' || /bin/rm -rf /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d)/*
 
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+MAILTO =root
+MAILTO =    root
+SEND_TO =    foo@bar.com
+SEND_TO =    "foo@ bar.com"
 #*/5  * * * * www-data   /usr/bin/test $(/usr/bin/du -sm /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d) | /usr/bin/awk '{ print $1 }') -lt '512' || /bin/rm -rf /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d)/*
 
 3 2-5 1,2,3 * *    rm -rf /
@@ -43,6 +48,31 @@ CRONTAB;
 
         $line = new CrontabLine();
         $line->setLineNumber($expectedLineNumber++);
+        $expectedLines[] = $line;
+
+        $line = new CrontabLine();
+        $line->setLineNumber($expectedLineNumber++);
+        $line->setOriginalLine('PATH=/sbin:/bin:/usr/bin:/usr/sbin');
+        $expectedLines[] = $line;
+
+        $line = new CrontabLine();
+        $line->setLineNumber($expectedLineNumber++);
+        $line->setOriginalLine('MAILTO =root');
+        $expectedLines[] = $line;
+
+        $line = new CrontabLine();
+        $line->setLineNumber($expectedLineNumber++);
+        $line->setOriginalLine('MAILTO =    root');
+        $expectedLines[] = $line;
+
+        $line = new CrontabLine();
+        $line->setLineNumber($expectedLineNumber++);
+        $line->setOriginalLine('SEND_TO =    foo@bar.com');
+        $expectedLines[] = $line;
+
+        $line = new CrontabLine();
+        $line->setLineNumber($expectedLineNumber++);
+        $line->setOriginalLine('SEND_TO =    "foo@ bar.com"');
         $expectedLines[] = $line;
 
         $line = new CrontabLine();

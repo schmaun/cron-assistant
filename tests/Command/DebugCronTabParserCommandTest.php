@@ -11,18 +11,9 @@ class DebugCronTabParserCommandTest extends TestCase
 {
     public function testExecute(): void
     {
-        $application = new Application();
-        $application->setAutoExit(false);
-        $application->add(new DebugCronTabParserCommand());
-
         $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d-with-invalid-files';
 
-        $command = $application->find('cronjobs:debug:crontab-parser');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            'command'  => $command->getName(),
-            'path' => $path,
-        ));
+        $commandTester = $this->createCommandTester($path);
 
         $output = $commandTester->getDisplay();
 
@@ -33,11 +24,11 @@ class DebugCronTabParserCommandTest extends TestCase
 
     public function testExecute_noParseErrors(): void
     {
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d';
+
         $application = new Application();
         $application->setAutoExit(false);
         $application->add(new DebugCronTabParserCommand());
-
-        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d';
 
         $command = $application->find('cronjobs:debug:crontab-parser');
         $commandTester = new CommandTester($command);
@@ -53,11 +44,11 @@ class DebugCronTabParserCommandTest extends TestCase
 
     public function testExecute_emptyDir(): void
     {
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d-empty';
+
         $application = new Application();
         $application->setAutoExit(false);
         $application->add(new DebugCronTabParserCommand());
-
-        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d-empty';
 
         $command = $application->find('cronjobs:debug:crontab-parser');
         $commandTester = new CommandTester($command);
@@ -69,5 +60,27 @@ class DebugCronTabParserCommandTest extends TestCase
         $output = $commandTester->getDisplay();
 
         $this->assertContains('No errors!', $output);
+    }
+
+    /**
+     * @param string $path
+     * @return CommandTester
+     */
+    private function createCommandTester(string $path): CommandTester
+    {
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->add(new DebugCronTabParserCommand());
+
+        $command = $application->find('cronjobs:debug:crontab-parser');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            array(
+                'command' => $command->getName(),
+                'path' => $path,
+            )
+        );
+
+        return $commandTester;
     }
 }
