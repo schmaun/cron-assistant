@@ -78,7 +78,7 @@ class ScheduleFactory
             }
         }
 
-        throw new \RuntimeException('Could not parse: ' . $value);
+        throw new \RuntimeException(sprintf('Could not parse: "%s"', $value));
     }
 
     private static function normalizeNamedValues(string $value)

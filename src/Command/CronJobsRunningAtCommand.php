@@ -5,12 +5,12 @@ namespace MyHammer\CronAssistant\Command;
 
 use MyHammer\CronAssistant\Factories\CrontabParser;
 use MyHammer\CronAssistant\Factories\DateTimeParser;
+use MyHammer\CronAssistant\Utils\Filesystem;
 use MyHammer\CronAssistant\Model\CrontabLine;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Finder\Finder;
 
 class CronJobsRunningAtCommand extends Command
 {
@@ -24,8 +24,11 @@ class CronJobsRunningAtCommand extends Command
         $this->setName('cronjobs:running-at')
             ->setDescription('Tells you which crons would run at the given time.')
             ->addArgument('path', InputArgument::REQUIRED, 'Path to where the crontab files live.')
-            ->addArgument('dateTime', InputArgument::REQUIRED,
-                'The date and/or time in question. You can ask for a date, a date and hour or a date and hour+minutes. Format: YYYY-MM-DD [HH][:MM]');
+            ->addArgument(
+                'dateTime',
+                InputArgument::REQUIRED,
+                'The date and/or time in question. You can ask for a date, a date and hour or a date and hour+minutes. Format: YYYY-MM-DD [HH][:MM]'
+            );
     }
 
     /**
@@ -45,21 +48,21 @@ class CronJobsRunningAtCommand extends Command
             return;
         }
 
-        $finder = new Finder();
-        $finder->files()->in($input->getArgument('path'))->sortByName()->depth(0);
-
-        foreach ($finder as $file) {
+        foreach (Filesystem::findFiles($input->getArgument('path')) as $file) {
             try {
-                $crontabFile = CrontabParser::parseContent($file->getContents());
-                foreach ($crontabFile as $lineNumber => $cronTabLine) {
-                    /** @var CrontabLine $cronTabLine */
+                $cronTabFile = CrontabParser::parseContent($file->getContents());
+                foreach ($cronTabFile as $lineNumber => $cronTabLine) {
                     if ($cronTabLine->isRunningAt($time)) {
                         $this->outputIsRunningAt($file->getRealPath(), $lineNumber, $cronTabLine);
                     }
                 }
             } catch (\RuntimeException $exception) {
-                $output->writeln(sprintf("<info>Ignoring %s. Doesn't look like a crontab file</info>",
-                    $file->getRealPath()));
+                $output->writeln(
+                    sprintf(
+                        "<info>Ignoring %s. Doesn't look like a crontab file</info>",
+                        $file->getRealPath()
+                    )
+                );
             }
 
         }

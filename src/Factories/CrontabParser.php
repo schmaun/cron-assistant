@@ -9,6 +9,10 @@ use MyHammer\CronAssistant\Model\CrontabLine;
 
 class CrontabParser
 {
+    /**
+     * @param string $content
+     * @return Crontab|CrontabLine[]
+     */
     public static function parseContent(string $content): Crontab
     {
         $crontab = new Crontab();

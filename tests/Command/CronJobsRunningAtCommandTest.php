@@ -21,7 +21,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $application->setAutoExit(false);
         $application->add(new CronJobsRunningAtCommand());
 
-        $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cron.d';
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d';
 
         $command = $application->find('cronjobs:running-at');
         $commandTester = new CommandTester($command);
@@ -42,7 +42,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $application->setAutoExit(false);
         $application->add(new CronJobsRunningAtCommand());
 
-        $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cron.d-empty';
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d-empty';
 
         $command = $application->find('cronjobs:running-at');
         $commandTester = new CommandTester($command);
@@ -62,7 +62,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $application->setAutoExit(false);
         $application->add(new CronJobsRunningAtCommand());
 
-        $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cron.d-with-invalid-files';
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d-with-invalid-files';
 
         $command = $application->find('cronjobs:running-at');
         $commandTester = new CommandTester($command);
@@ -83,7 +83,7 @@ class CronJobsRunningAtCommandTest extends TestCase
         $application->setAutoExit(false);
         $application->add(new CronJobsRunningAtCommand());
 
-        $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cron.d';
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d';
 
         $command = $application->find('cronjobs:running-at');
         $commandTester = new CommandTester($command);
@@ -118,7 +118,7 @@ class CronJobsRunningAtCommandTest extends TestCase
 
     public function provideDateAndOutput()
     {
-        $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cron.d' . DIRECTORY_SEPARATOR;
+        $path = __DIR__. DIRECTORY_SEPARATOR . 'cron.d' . DIRECTORY_SEPARATOR;
         return [
             ['2018-01-01', <<<CRONS
 {$path}cronjobs-1 (0): */2 * * * * www-data /usr/bin/test -d

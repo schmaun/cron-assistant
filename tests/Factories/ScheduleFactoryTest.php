@@ -10,7 +10,6 @@ use MyHammer\CronAssistant\Model\ValueObject\RangeSchedule;
 use MyHammer\CronAssistant\Model\ValueObject\Schedule;
 use MyHammer\CronAssistant\Model\ValueObject\SteppedAnySchedule;
 use MyHammer\CronAssistant\Model\ValueObject\SteppedRangeSchedule;
-use MyHammer\CronAssistant\Tests\Model\ValueObject\SteppedAnyScheduleTest;
 use PHPUnit\Framework\TestCase;
 
 class ScheduleFactoryTest extends TestCase
@@ -172,7 +171,7 @@ class ScheduleFactoryTest extends TestCase
     public function testParse_notParseable($value): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Could not parse: ' . $value);
+        $this->expectExceptionMessage(sprintf('Could not parse: "%s"', $value));
         ScheduleFactory::parse($value);
     }
 
