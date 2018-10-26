@@ -26,11 +26,13 @@ SEND_TO =    "foo@ bar.com"
 #*/5  * * * * www-data   /usr/bin/test $(/usr/bin/du -sm /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d) | /usr/bin/awk '{ print $1 }') -lt '512' || /bin/rm -rf /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d)/*
 
 3 2-5 1,2,3 * *    rm -rf /
+0 5 * * * /var/www/orchestra/app/console myhammer:job:jobOfferReminder 3 --env=dev
 CRONTAB;
 
         $originalLine1 = '*/30  * *   * * www-data /usr/bin/test $(/usr/bin/du -sm /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d) | /usr/bin/awk \'{ print $1 }\') -lt \'512\' || /bin/rm -rf /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d)/*';
         $originalLine2 = '*/5  * * * * www-data   /usr/bin/test $(/usr/bin/du -sm /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d) | /usr/bin/awk \'{ print $1 }\') -lt \'512\' || /bin/rm -rf /var/www/releases/orchestra/shared/app/logs/details/$(date +%Y-%m/%d)/*';
-        $originalLine4 = '3 2-5 1,2,3 * *    rm -rf /';
+        $originalLine3 = '3 2-5 1,2,3 * *    rm -rf /';
+        $originalLine4 = '0 5 * * * /var/www/orchestra/app/console myhammer:job:jobOfferReminder 3 --env=dev';
 
         $expectedLines = [];
         $expectedLineNumber = 0;
@@ -82,6 +84,12 @@ CRONTAB;
 
         $line = new CrontabLine();
         $line->setLineNumber($expectedLineNumber++);
+        $expectedLines[] = $line;
+
+        $line = new CrontabLine();
+        $line->setOriginalLine($originalLine3);
+        $line->setLineNumber($expectedLineNumber++);
+        $line->setCron(CrontabParser::parseCron($originalLine3));
         $expectedLines[] = $line;
 
         $line = new CrontabLine();
@@ -209,7 +217,6 @@ CRONTAB;
     {
         return [
             ['* * * usr/bin/mail -s "spam"'],
-            ['* * * * * * * * root /usr/bin/mail -s "spam"'],
             ['* * * * *'],
             ['a * * * * root /usr/bin/mail -s "spam"'],
             ['* b * * * root /usr/bin/mail -s "spam"'],

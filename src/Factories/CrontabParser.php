@@ -37,9 +37,14 @@ class CrontabParser
     public static function parseCron(string $line): Cron
     {
         $line = trim($line);
-        $elements = [];
+
         $schedulePattern = sprintf('%1$s%1$s%1$s%1$s%1$s', '([0-9*,/\-\w]{1,})\s{1,}');
-        preg_match('#^' . $schedulePattern . '([^/\* ]{0,})\s(.*)$#', $line, $elements);
+        $userPattern = '([^/\* ]{0,}\s)?';
+        $commandPattern = '(.*)';
+        $completePattern = '#^'.$schedulePattern.$userPattern.$commandPattern.'$#';
+
+        $elements = [];
+        preg_match($completePattern, $line, $elements);
         $elements = self::normalizeCronlineElements($elements);
 
         $elementCount = \count($elements);
