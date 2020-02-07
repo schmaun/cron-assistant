@@ -10,7 +10,7 @@ composer install
 ```
 
 ### Or
-Download a not yet created phar file ;)
+Download latest Phar https://github.com/schmaun/cron-assistant/releases/tag/v1.0-alpha.1
 
 ## Usage
 ```
